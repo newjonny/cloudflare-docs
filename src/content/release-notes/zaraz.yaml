@@ -3,6 +3,9 @@ link: "/zaraz/changelog/"
 productName: Zaraz
 productLink: "/zaraz/"
 entries:
+  - publish_date: "2026-11-25"
+    description: |
+      * **Cloudflare RUM**: Add Cloudflare Real User Monitoring (RUM) to the Zaraz tool catalog
   - publish_date: "2025-02-11"
     description: |
       * **Logpush**: Add Logpush support for Zaraz

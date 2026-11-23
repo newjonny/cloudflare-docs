@@ -1,0 +1,20 @@
+---
+title: Cloudflare RUM is now available in Zaraz
+description: Add Real User Monitoring (RUM) from the Zaraz tool catalog and control collection with Zaraz consent management.
+date: 2026-11-23
+products:
+  - zaraz
+  - web-analytics
+---
+
+You can now add Cloudflare Real User Monitoring (RUM) from the Cloudflare Zaraz tool catalog.
+
+To load the beacon only after consent, assign the RUM component to a purpose in [Zaraz consent management](/zaraz/consent-management/). Without an assigned purpose, the component loads the beacon without waiting for consent.
+
+:::note
+Setting up RUM through Zaraz switches RUM to manual setup. If you previously selected the **Enable, excluding visitor data in the EU** setting, switching to RUM through Zaraz removes that regional exclusion. Visitors in the European Economic Area, the United Kingdom, and Switzerland are no longer automatically excluded. If you require consent before loading RUM in these regions, assign a consent purpose and review your consent configuration before publishing the change.
+:::
+
+To configure location-based consent checks in Zaraz CMP, refer to [Restricting consent checks based on location](/zaraz/consent-management/api/#restricting-consent-checks-based-on-location).
+
+For setup instructions, refer to [Set up RUM with Zaraz](/web-analytics/get-started/#set-up-rum-with-zaraz).

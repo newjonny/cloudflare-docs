@@ -13,7 +13,7 @@ tags:
   - Analytics
 ---
 
-import { Render, DashButton } from "~/components";
+import { Render, DashButton, Steps } from "~/components";
 
 ## Sites not proxied through Cloudflare
 
@@ -59,6 +59,30 @@ For more information on how to configure which sites or pages you track with Web
 If you have a `Cache-Control` header set to `public, no-transform`, Cloudflare proxy will not be able to modify the original payload of the website. Therefore, the Beacon script will not be automatically injected to your site, and Web Analytics will not work. Refer to [Origin cache control](/cache/concepts/cache-control/) for more information.
 
 :::
+
+---
+
+## Set up RUM with Zaraz
+
+You can add RUM as a managed component in Cloudflare Zaraz. Measurement still runs in the visitor's browser.
+
+<Steps>
+1. In the Cloudflare dashboard, go to the **Tag Setup** page.
+
+   <DashButton url="/?to=/:account/tag-management/zaraz" />
+
+2. Select **Third-party tools** > **Add new tool**.
+3. Select **Cloudflare Real User Monitoring** and select **Continue**.
+4. Review the current RUM configuration and any warnings. Zaraz turns on RUM with manual setup if RUM is not set up or turned off. If RUM already uses automatic injection or excludes [EEA/GB/CH](/speed/observatory/rum-beacon/#rum-excluding-eeagbch) visitors, Zaraz changes it to manual setup.
+5. (Optional) Assign the component to a purpose in [Zaraz consent management](/zaraz/consent-management/).
+6. Select **Save**, then publish the Zaraz configuration.
+</Steps>
+
+:::caution
+If you already set up RUM with manual injection, remove the existing beacon snippet from your site before you publish the Zaraz configuration.
+:::
+
+To configure location-based consent checks in Zaraz CMP, refer to [Restricting consent checks based on location](/zaraz/consent-management/api/#restricting-consent-checks-based-on-location).
 
 ---
 

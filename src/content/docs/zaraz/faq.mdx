@@ -148,6 +148,12 @@ gtag("event", "conversion", {
 
 The Conversion ID is the first part of `send_to` parameter, without the `AW-`. In the above example it would be `123456789`. The Conversion Label is the second part of the `send_to` parameter, therefore `AbC-D_efG-h12_34-567` in the above example. When setting up your Google Ads conversions through Zaraz, take the information from the original scripts you were asked to implement.
 
+### Real User Monitoring
+
+#### Why is RUM not collecting data after I add it to Zaraz?
+
+If you assigned a [consent purpose](/zaraz/consent-management/) to the Real User Monitoring (RUM) component, the beacon does not load while consent is pending or denied. Verify the consent purpose and the visitor's stored consent choice. If you did not assign a purpose, the component loads the beacon without waiting for consent.
+
 ### Custom HTML
 
 #### Can I use Google Tag Manager together with Zaraz?
