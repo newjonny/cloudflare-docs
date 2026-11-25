@@ -237,7 +237,7 @@ If some Pageview-based events were not sent due to a lack of consent, they can b
 
 ### Restricting consent checks based on location
 
-You can combine multiple features of Zaraz to effectively disable Consent Management for some visitors. For example, if you would like to use it only for visitors from the EU, you can disable the automatic showing of the consent modal and add a Custom HTML tool with the following script:
+You can combine multiple features of Zaraz to effectively disable Consent Management for some visitors. For example, if you would like to use it only for visitors from the European Economic Area (EEA), the United Kingdom, and Switzerland, you can disable the automatic showing of the consent modal and add a Custom HTML tool with the following script:
 
 ```html
 <script>
@@ -247,10 +247,20 @@ function getCookie(name) {
 }
 
 function handleZarazConsentAPIReady() {
-  const consent_cookie = getCookie("cf_consent")
-  const isEUCountry = "{{system.device.location.isEUCountry}}" === "1"
-  if (!consent_cookie) {
-    if (isEUCountry) {
+  const consentCookie = getCookie("cf_consent")
+  const euFlag = "{{system.device.location.isEUCountry}}"
+  const rawCountry = "{{system.device.location.country}}"
+  const country = rawCountry.trim().toUpperCase()
+  const isEUCountry = euFlag === "1"
+  const isAdditionalCountry = ["IS", "LI", "NO", "GB", "CH"].includes(country)
+  const isKnownEUFlag = euFlag === "0" || euFlag === "1"
+  const isUnknownLocation =
+    !isKnownEUFlag ||
+    !/^[A-Z]{2}$/.test(country) ||
+    ["XX", "T1"].includes(country)
+
+  if (!consentCookie) {
+    if (isEUCountry || isAdditionalCountry || isUnknownLocation) {
       zaraz.consent.modal = true
     } else {
       zaraz.consent.setAll(true)
@@ -259,7 +269,7 @@ function handleZarazConsentAPIReady() {
   }
 }
 
-if (zaraz.consent?.APIReady) {
+if (window.zaraz?.consent?.APIReady) {
   handleZarazConsentAPIReady()
 } else {
   document.addEventListener("zarazConsentAPIReady", handleZarazConsentAPIReady)
@@ -267,6 +277,6 @@ if (zaraz.consent?.APIReady) {
 </script>
 ```
 
-Note: If you've customized the cookie name for the Consent Manager, use that customized name instead of "cf\_consent"  in the snippet above.
+If you customized the cookie name for the Consent Manager, use that customized name instead of `cf_consent` in the snippet.
 
-By letting this Custom HTML tool to run without consent requirements, the modal will appear to all EU visitors, while for other visitors consent will be automatically granted. The `{{ system.device.location.isEUCountry }}` property will be `1` if the visitor is from an EU country and `0` otherwise. You can use any other property or variable to customize the Consent Management behavior in a similar manner, such as `{{ system.device.location.country }}` to restrict consent checks based on country code.
+By allowing this Custom HTML tool to run without consent requirements, the consent modal appears to visitors in the EEA, the United Kingdom, and Switzerland. Consent is granted automatically for all other visitors. The `{{ system.device.location.isEUCountry }}` property returns `1` for visitors in the European Union (EU) and `0` for all other visitors. The script also checks `{{ system.device.location.country }}` for Iceland (`IS`), Liechtenstein (`LI`), and Norway (`NO`), which are in the EEA but not in the EU, as well as the United Kingdom (`GB`) and Switzerland (`CH`). If Zaraz cannot determine the visitor's location, returns `XX` or `T1` (Tor), or returns an unexpected value for either property, the script shows the consent modal as a safe fallback.
